@@ -134,14 +134,12 @@ By: ${NomeDono}
         } else {
           await sock.sendMessage(from, { text: "Por favor, forneça uma URL de imagem após o comando." });
         }
-      }else if (text.startsWith("/play ")) {
+      } else if (text.startsWith("/play ")) {
         const term = text.replace("/play ", "");
         await playCommand(client, message, term);
-    } else if (message.message.buttonsResponseMessage) {
+      } else if (message.message.buttonsResponseMessage) {
         await handleButton(client, message);
-    }
-
-}else if (text === "/menu") {
+      } else if (text === "/menu") {
         // Comando /help
         const helpMessage = `
         ⌈🔰 ${NomeDoBot} OFC(V1.2.0) 🔰⌋

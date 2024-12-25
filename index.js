@@ -140,7 +140,7 @@ By: ${NomeDono}
     } else if (message.message.buttonsResponseMessage) {
         await handleButton(client, message);
     }
-});
+
 }else if (text === "/menu") {
         // Comando /help
         const helpMessage = `
@@ -249,7 +249,8 @@ By: ${NomeDono}
         await sock.sendMessage(from, { text: "Comando não reconhecido. Digite /help para ver os comandos disponíveis." });
       }
     }
-  });
+});
+
 
   // Funções para processar as imagens
 

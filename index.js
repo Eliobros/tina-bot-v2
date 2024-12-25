@@ -136,7 +136,7 @@ By: ${NomeDono}
         }
       } else if (text.startsWith("/play ")) {
         const term = text.replace("/play ", "");
-        await playCommand(client, message, term);
+        await playCommand(client, messages, term);
       } else if (message.message.buttonsResponseMessage) {
         await handleButton(client, message);
       } else if (text === "/menu") {
@@ -405,43 +405,7 @@ async function uploadToImgur(imagePath) {
 }
 
 
-  // Verifica se o comando é /imgLink
-  if (text.startsWith("/imgLink")) {
-    const { message, key } = msg;
 
-    // Verifica se a mensagem contém uma imagem
-    if (message.imageMessage) {
-      const imageUrl = message.imageMessage.url;  // Obtém a URL da imagem
-      try {
-        const imageBuffer = await sock.downloadMediaMessage(msg); // Baixa a imagem
-
-        // Cria a pasta temporária caso ela não exista
-        const tempDir = './temp';
-        if (!fs.existsSync(tempDir)) {
-          fs.mkdirSync(tempDir, { recursive: true });
-        }
-
-        // Salva a imagem no diretório temporário para fazer upload
-        const imagePath = `${tempDir}/temp-image.jpg`;
-        fs.writeFileSync(imagePath, imageBuffer);
-
-        // Faz o upload para o Imgur
-        const imgurLink = await uploadToImgur(imagePath);
-        
-        // Envia o link de volta para o usuário
-        await sock.sendMessage(msg.key.remoteJid, { text: `Aqui está o link da sua imagem: ${imgurLink}` });
-
-        // Apaga o arquivo temporário após o uso
-        fs.unlinkSync(imagePath);
-      } catch (error) {
-        await sock.sendMessage(msg.key.remoteJid, { text: "Houve um erro ao processar a imagem. Tente novamente." });
-      }
-    } else {
-      // Caso o usuário não envie uma imagem, avisa sobre o erro
-      await sock.sendMessage(msg.key.remoteJid, { text: "Por favor, envie uma imagem para gerar o link." });
-    }
-  }
-});
 
 // Inicia a conexão
 connect();

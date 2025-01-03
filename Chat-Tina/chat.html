@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="tina-logo.jpg">
+    <title>Tina Chat</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link rel="shortcut icon" type="image/x-icon" href="./img/tina_logo.ico">
+    
+  <!-- Cabeçalho do Chat -->
+<div class="header-component">
+    <img src="./img/tina-logo.jpg" alt="Logo" class="avatar">
+    <h2>Assistente Tina</h2>
+    <div class="settings-icon" onclick="confButton()">⚙️</div>
+</div>
+
+<!-- Caixa de Mensagens -->
+<div id="chatBox"></div>
+
+<!-- Campo de Entrada de Mensagem -->
+<div class="message-input-component">
+    <input type="text" id="userMessage" placeholder="Digite sua mensagem..." />
+    <button id="sendMessage">Enviar</button>
+</div>
+
+<!-- Configurações -->
+<div class="config-popup" id="configPopup">
+    <div class="config-content">
+        <h3>Configurações</h3>
+        <button onclick="changeTheme()">Mudar Tema</button>
+        <button>Suporte</button>
+        <button onclick="tinaVoice()">Tina Voice</button>
+        <button onclick="logoutUser()">Sair</button>
+        <button onclick="privacyTina()">Política de Privacidade</button>
+        <button id="close-btn" onclick="closeConfig()">Fechar</button>
+    </div>
+</div>
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-analytics.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  // Configuração do Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBxml_34BiDbOmMxclzM-UnFzke9ymcf8A",
+    authDomain: "tina-chat-87cc1.firebaseapp.com",
+    projectId: "tina-chat-87cc1",
+    storageBucket: "tina-chat-87cc1.firebasestorage.app",
+    messagingSenderId: "518858413060",
+    appId: "1:518858413060:web:86c6cb8f5094a9b5291151",
+    measurementId: "G-CB39SE8MQZ"
+  };
+
+  // Inicializando o Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+  const db = getFirestore(app); // Inicializando o Firestore
+</script>
+    <!-- Scripts -->
+    <script type="module" src="app.js"></script>
+    <script>
+    
+        // Função para abrir a janela de configurações
+        function confButton() {
+            document.getElementById('configPopup').style.display = 'flex';
+        }
+
+        // Função para fechar a janela de configurações
+        function closeConfig() {
+            document.getElementById('configPopup').style.display = 'none';
+        }
+
+        // Função para mudar o tema (exemplo básico de troca de fundo)
+        function changeTheme() {
+            document.body.style.backgroundColor = document.body.style.backgroundColor === 'black' ? 'white' : 'black';
+            document.body.style.color = document.body.style.color === 'white' ? 'black' : 'white';
+        }
+
+        // Função para "sair"
+        function logout() {
+            alert('Você foi descontado');
+            
+          window.closeConfig()
+          window.location.href = "index.html";
+            // Adicione a lógica de logout aqui
+        }
+        
+        function tinaVoice(){
+          window.location.href = "call.html";
+        }
+        
+        function privacyTina(){
+          window.open("https://privacytina.netlify.app","_blank");
+        }
+        
+        
+    </script>
+  
+</body>
+</html>

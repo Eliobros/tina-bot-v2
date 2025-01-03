@@ -1,0 +1,1 @@
+{"version":2,"languages":{"nodejs-npm":{"specfileHash":"c53bc1f1af8d25c19b799bc2fef86c74","lockfileHash":"72590ad87db8204bde36b758967c6bbc","guessedImports":["@adiwajshing/baileys ","axios","socket.io","sharp","@whiskeysockets/baileys","date-fns","pino","firebase-admin","firebase","spotify-web-api-node"],"guessedImportsHash":"373b58ed8d31886a1b9a3b87fa68bf37"}}}

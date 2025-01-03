@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MOZ POWER HOSTING MZ a Plataforma de hospedagens de bot gratuita para voce.aqui voce pode hospedar seus bots em nodejs sem pagar nada.">
+  <meta name="keywords" content="mozpowerhost, mozpower, mozpowerhosting, mozpowerhosting, mozpowerhost, mozpower,mozhost">
+  <meta name="author" contenct="Eliobros Tech">
+  <link rel="icon" type="image/png" href="https://i.imgur.com/k0Xi2yv.png">"
+  <title> MOZ POWER HOSTING MZ</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    h1 {
+      color: #333;
+    }
+    textarea {
+      width: 80%;
+      height: 300px;
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-family: monospace;
+      font-size: 14px;
+      background-color: #fff;
+      resize: none;
+    }
+    input {
+      width: 70%;
+      padding: 10px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Terminal</h1>
+  <textarea id="output" readonly></textarea><br>
+  <input id="command" type="text" placeholder="Digite seu comando aqui..." />
+  <button id="send">Enviar</button>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const output = document.getElementById('output');
+    const commandInput = document.getElementById('command');
+    const sendButton = document.getElementById('send');
+
+    // Enviar comando para o servidor
+    sendButton.addEventListener('click', () => {
+      const command = commandInput.value.trim();
+      if (command) {
+        output.value += `> ${command}\n`; // Mostra o comando no terminal
+        socket.emit('terminal-command', command); // Envia para o servidor
+        commandInput.value = ''; // Limpa o campo de entrada
+      }
+    });
+
+    // Receber saída do servidor
+    socket.on('terminal-output', (data) => {
+      output.value += `${data}\n`; // Adiciona a saída ao terminal
+      output.scrollTop = output.scrollHeight; // Rola para o final
+    });
+  </script>
+</body>
+</html>

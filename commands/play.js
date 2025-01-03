@@ -1,46 +1,87 @@
-const ytsr = require("ytsr");
+// commands/play.js
+module.exports = {
+  name: "play",
+  description: "Baixa e envia músicas do YouTube",
+  async execute(sock, { msg, args, from, pushName }) {
 
-// Função de busca no YouTube
-async function searchYouTube(term) {
-    const filters = await ytsr.getFilters(term);
-    const videoFilter = filters.get("Type").find(o => o.name === "Video");
-    const searchResults = await ytsr(videoFilter.url, { limit: 1 });
-    return searchResults.items[0];
-}
+    if (text.startsWith("/play")) {
+    const query = text.slice(6).trim(); // Remove '/play ' e pega a consulta
 
-async function playCommand(client, message, term) {
-    const video = await searchYouTube(term);
-    if (!video) {
-        await client.sendMessage(message.key.remoteJid, { text: "❌ Nenhum resultado encontrado!" });
-        return;
+    if (!query) {
+        return sock.sendMessage(from, {
+            text: `╭━━━❀ TINA BOT - OFICIAL ❀━━━╮
+│╭━━━──────────────━━━╮
+│╎
+││❯              〘 𝐓𝐔𝐓𝐎𝐑𝐈𝐀𝐋 〙
+│╎
+│╎Olá, ${pushName}
+│╎Aqui Irei Lhe Ensinar
+│╎A Baixar Músicas 
+│╎Você Deve Informar o Nome
+│╎Da Música Desejada 
+│╎
+│╎/play NomeDaMusica
+│╎
+│╰━━────────────────━━╯
+╰━━━━━━━━━━━━━━━━━━━━━━╯`
+        }, { quoted: msg }); // Resposta com citação (opcional)
     }
 
-    const { title, url, duration, author, views, description, uploadedAt } = video;
+    // Mensagem de progresso
+    await sock.sendMessage(from, { text: `🎧 Buscando a música: *${query}*... Aguarde!` });
 
-    const buttons = [
-        { buttonId: `audio-${url}`, buttonText: { displayText: "Audio" }, type: 1 },
-        { buttonId: `video-${url}`, buttonText: { displayText: "Vídeo" }, type: 1 }
-    ];
+    try {
+        // Chamada à API
+        const api = await fetch.Json(`http://node2.forgerhost.online:2000/api/ytsrc?q=${query}&apikey=TinaBotAPI`);
 
-    const msg = `
-> ❯❯ *TINA BOT* - DOWNLOADS ❮❮
+        if (!api.resultado || api.resultado.length === 0) {
+            return sock.sendMessage(from, { text: 'Não foi possível encontrar resultados para sua pesquisa. Tente outro termo.' });
+        }
 
-> *❒ৣ͜͡Titulo:* ${title}
-> *❒ৣ͜͡Canal:* ${author.name}
-> *❒ৣ͜͡Visualizações:* ${views}
-> *❒ৣ͜͡Postado:* ${uploadedAt}
-> *❒ৣ͜͡Duração:* ${duration}
-> *❒ৣ͜͡Link:* ${url}
-> *❒ৣ͜͡Descrição:* ${description}
+        const musicInfo = api.resultado[0];
+        const buffer = await getBuffer(musicInfo.image); // Processa a imagem
 
-> *Baixado por ✦『*TINA BOT*』✦*
-`;
+        // Envia as informações ao usuário
+        const infoText = `❯❯   TINA BOT - DOWNLOAD   ❮❮
+ৡৢ͜͡𝔬⃝ Título: ${musicInfo.title}
+ৡৢ͜͡𝔬⃝ Canal: ${musicInfo.author.name}
+ৡৢ͜͡𝔬⃝ Duração: ${musicInfo.timestamp}
+ৡৢ͜͡𝔬⃝ Link: ${musicInfo.url}
+ৡৢ͜͡𝔬⃝ Visualizações: ${musicInfo.views}
+ৡৢ͜͡𝔬⃝ Descrição: ${musicInfo.description}`;
 
-    await client.sendMessage(message.key.remoteJid, {
-        text: msg,
-        buttons: buttons,
-        headerType: 1
-    });
+        await sock.sendMessage(from, {
+            text: infoText,
+            contextInfo: {
+                forwardingScore: 9999999,
+                isForwarded: true,
+                mentionedJid: [sender],
+                externalAdReply: {
+                    showAdAttribution: true,
+                    renderLargerThumbnail: true,
+                    title: 'TINA BOT OFICIAL',
+                    containsAutoReply: true,
+                    mediaType: 1,
+                    thumbnail: buffer, // Imagem processada
+                    mediaUrl: `https://chat.whatsapp.com/CNldjIfMzMM0ePgkpYQMyE`,
+                    sourceUrl: `https://chat.whatsapp.com/CNldjIfMzMM0ePgkpYQMyE`
+                }
+            },
+            mentions: [sender]
+        }, { quoted: msg });
+
+        // Envia o áudio
+        await sock.sendMessage(from, {
+            audio: { url: `http://node2.forgerhost.online:2000/api/dl/ytaudio?url=${musicInfo.url}&apikey=TinaBotAPI` },
+            mimetype: "audio/mp4"
+        }, { quoted: msg });
+
+    } catch (error) {
+        console.error(error);
+        sock.sendMessage(from, { text: 'Desculpe, ocorreu um erro ao processar sua solicitação. Tente novamente mais tarde.' }, { quoted: msg });
+    }
 }
 
-module.exports = { playCommand };
+
+  }
+};

@@ -1,0 +1,143 @@
+/* Reset de estilo */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+       background: linear-gradient(45deg ,#098dc1,60% ,#f417de);
+    
+}
+
+/* Estilos do Formulário */
+#login-form, #register-form, #forgot-password {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    width: 300px;
+    animation: trocarCores 3.5s ease-in-out infinite both;
+}
+
+@keyframes trocarCores {
+    0%{
+        box-shadow: 0px 3px 8px 10px #0097fe;
+    }
+    50%{
+        box-shadow: 0px 3px 8px 10px red;
+    }
+    
+    100%{
+       box-shadow:0px 3px 8px 10px greenyellow;
+    }
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+input:focus{
+    border: 2px solid #0097fe;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    background-color: #0097fe;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #007acc;
+}
+
+/* Links */
+p a {
+    color: #0097fe;
+    text-decoration: none;
+}
+
+p a:hover {
+    text-decoration: underline;
+}
+
+/* Botões das Redes Sociais */
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    background-color: #4285F4; /* Cor do Google */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.social-button i {
+    margin-right: 10px; /* Espaço entre o ícone e o texto */
+}
+
+.social-button:hover {
+    background-color: #357ae8; /* Cor mais escura do Google */
+}
+
+#TwitterBtnLogin, #TwitterBtnRegister {
+    background-color: #1DA1F2; /* Cor do Twitter */
+}
+
+#TwitterBtnLogin:hover, #TwitterBtnRegister:hover {
+    background-color: #0d95e8; /* Cor mais escura do Twitter */
+}
+
+#GithubBtnLogin, #GithubBtnRegister {
+    background-color: #24292F; /* Cor do GitHub */
+}
+
+#GithubBtnLogin:hover, #GithubBtnRegister:hover {
+    background-color: #333; /* Cor mais escura do GitHub */
+}
+
+/* Estilo de transição suave */
+.social-button, button {
+    transition: transform 0.2s ease, background-color 0.3s;
+}
+
+.social-button:hover, button:hover {
+    transform: scale(1.05);
+}
+
+/* Estilos Responsivos */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    #login-form, #register-form, #forgot-password {
+        width: 100%;
+        max-width: 400px;
+    }
+}

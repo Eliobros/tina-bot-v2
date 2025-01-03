@@ -1,5 +1,5 @@
-entrypoint = "index.js"
-modules = ["nodejs-20"]
+entrypoint = "command017.js"
+modules = ["nodejs-20", "nodejs-22"]
 hidden = [".config", "package-lock.json"]
 
 [gitHubImport]
@@ -12,10 +12,21 @@ channel = "stable-24_05"
 language = "nodejs"
 
 [deployment]
-run = ["node", "index.js"]
+run = ["node", "command017.js"]
 deploymentTarget = "cloudrun"
 ignorePorts = false
 
 [[ports]]
 localPort = 3000
 externalPort = 80
+
+[workflows]
+
+[[workflows.workflow]]
+name = "Eliobros Tech"
+mode = "sequential"
+author = 38539451
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm install socket.io"
